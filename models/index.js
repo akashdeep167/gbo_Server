@@ -19,6 +19,16 @@ db.sequelize = sequelize;
 
 db.user = require("../models/user.model.js")(sequelize, Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
+db.order = require("../models/order.model.js")(sequelize);
+db.orderImage = require("./orderImage.model")(sequelize);
+db.karigar = require("./karigar.model")(sequelize);
+
+// Defining associations
+db.order.hasMany(db.orderImage, { foreignKey: "order_id" });
+db.orderImage.belongsTo(db.order, { foreignKey: "order_id" });
+
+db.order.belongsTo(db.karigar, { foreignKey: "karigar_id" });
+db.karigar.hasMany(db.order, { foreignKey: "karigar_id" });
 
 db.role.belongsToMany(db.user, {
   through: "user_roles",

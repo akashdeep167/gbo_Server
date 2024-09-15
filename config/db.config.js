@@ -1,8 +1,11 @@
+const dotenv = require("dotenv");
+
+dotenv.config();
 module.exports = {
-  HOST: "localhost",
-  USER: "root",
-  PASSWORD: "0112",
-  DB: "mydatabase",
+  HOST: process.env.DB_HOST,
+  USER: process.env.DB_USER,
+  PASSWORD: process.env.DB_PASS,
+  DB: process.env.DB_NAME,
   dialect: "mysql",
   pool: {
     max: 5,
