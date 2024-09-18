@@ -9,14 +9,14 @@ router.post("/", [authJwt.verifyToken], karigarController.createKarigar);
 // Retrieve all Karigars
 router.get("/", [authJwt.verifyToken], karigarController.getAllKarigars);
 router.put(
-  "/karigars/:id",
+  "/:id",
   [authJwt.verifyToken, authJwt.isAdmin],
   karigarController.updateKarigar
 );
 
 // Route to delete a karigar by ID
 router.delete(
-  "/karigars/:id",
+  "/:id",
   [authJwt.verifyToken, authJwt.isAdmin],
   karigarController.deleteKarigar
 );
