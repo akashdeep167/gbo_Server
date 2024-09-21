@@ -32,24 +32,5 @@ router.put(
   orderController.updateOrder
 );
 
-// Public access route
-router.get("/test/all", controller.allAccess);
-
-// User board route - protected
-router.get("/test/user", [authJwt.verifyToken], controller.userBoard);
-
-// Moderator board route - protected and requires moderator role
-router.get(
-  "/test/mod",
-  [authJwt.verifyToken, authJwt.isModerator],
-  controller.moderatorBoard
-);
-
-// Admin board route - protected and requires admin role
-router.get(
-  "/test/admin",
-  [authJwt.verifyToken, authJwt.isAdmin],
-  controller.adminBoard
-);
 
 module.exports = router;
