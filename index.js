@@ -5,6 +5,7 @@ const db = require("./models/index");
 const authRoutes = require("./routes/auth.routes");
 const orderRoutes = require("./routes/order.routes");
 const karigarRoutes = require("./routes/karigar.routes");
+const imageRoutes = require("./routes/image.routes");
 
 const app = express();
 
@@ -13,8 +14,9 @@ app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api/auth", authRoutes);
-app.use("/api", orderRoutes);
-app.use("/api", karigarRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/karigars", karigarRoutes);
+app.use("/api/images", imageRoutes);
 
 db.sequelize
   .sync({ alter: true })
