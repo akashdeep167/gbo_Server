@@ -16,6 +16,10 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING(20),
       allowNull: false,
     },
+    products: {
+      type: DataTypes.STRING(200),
+      allowNull: true,
+    },
     description: {
       type: DataTypes.STRING(200),
       allowNull: false,
@@ -47,7 +51,7 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     active: {
-      type: DataTypes.BOOLEAN,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
   });

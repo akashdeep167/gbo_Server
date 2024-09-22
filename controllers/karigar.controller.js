@@ -18,7 +18,7 @@ exports.createKarigar = async (req, res) => {
     });
 
     // Send response
-    res.status(200).send(newKarigar);
+    res.status(201).send(newKarigar);
   } catch (error) {
     res.status(500).send({
       message:
