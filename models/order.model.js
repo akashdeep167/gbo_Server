@@ -5,10 +5,9 @@ module.exports = (sequelize) => {
   const Order = sequelize.define("order", {
     order_id: {
       type: DataTypes.STRING(20),
-      allowNull: false,
       primaryKey: true,
     },
-    weight: {
+    lot_weight: {
       type: DataTypes.STRING(20),
       allowNull: false,
     },
@@ -16,7 +15,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING(20),
       allowNull: false,
     },
-    products: {
+    product: {
       type: DataTypes.STRING(200),
       allowNull: true,
     },
@@ -38,10 +37,6 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING(20),
       allowNull: false,
     },
-    order_for: {
-      type: DataTypes.STRING(20),
-      allowNull: false,
-    },
     placed_date: {
       type: DataTypes.DATEONLY,
       allowNull: false,
@@ -50,8 +45,8 @@ module.exports = (sequelize) => {
       type: DataTypes.DATEONLY,
       allowNull: false,
     },
-    active: {
-      type: DataTypes.INTEGER,
+    status: {
+      type: DataTypes.STRING(20),
       allowNull: false,
     },
   });

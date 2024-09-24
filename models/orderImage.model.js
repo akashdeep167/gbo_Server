@@ -6,12 +6,12 @@ module.exports = (sequelize) => {
     "order_images", // Table name
     {
       id: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
       },
-      images: {
-        type: DataTypes.STRING(100),
+      imageUrl: {
+        type: DataTypes.STRING(200),
         allowNull: true,
       },
       order_id: {

@@ -7,44 +7,58 @@ exports.createOrder = async (req, res) => {
   try {
     const {
       order_id,
-      weight,
+      lot_weight,
       karat,
-      products,
+      product,
       description,
       karigar_id,
       placed_by,
-      order_for,
       placed_date,
       delivery_date,
-      active,
+      status,
       images, // Expecting an array of image URLs
     } = req.body;
 
     // Create and save the order in the database
     const newOrder = await Order.create({
       order_id,
-      weight,
+      lot_weight,
       karat,
-      products,
+      product,
       description,
       karigar_id,
       placed_by,
-      order_for,
       placed_date,
       delivery_date,
-      active,
+      status,
     });
 
     // Save images
     if (images && images.length > 0) {
       const imageEntries = images.map((imageUrl) => ({
-        images: imageUrl,
+        imageUrl: imageUrl,
         order_id: newOrder.order_id,
       }));
       await OrderImage.bulkCreate(imageEntries);
     }
 
-    res.status(201).send(newOrder);
+    const createdOrder = await Order.findOne({
+      where: { order_id: newOrder.order_id },
+      include: [
+        {
+          model: OrderImage,
+          as: "order_images", // Ensure this alias matches your association
+          attributes: ["id", "imageUrl"], // Adjust attributes as needed
+        },
+        {
+          model: Karigar,
+          as: "karigar", // Ensure this alias matches your association
+          attributes: ["id", "name", "description"], // Adjust attributes as needed
+        },
+      ],
+    });
+
+    res.status(201).send(createdOrder);
   } catch (error) {
     res.status(500).send({
       message: error.message || "Some error occurred while creating the order.",
@@ -60,7 +74,7 @@ exports.getAllOrders = async (req, res) => {
         {
           model: OrderImage,
           as: "order_images", // Ensure this alias matches what you used in your model definition
-          attributes: ["id", "images"], // Adjust attributes as needed
+          attributes: ["id", "imageUrl"], // Adjust attributes as needed
         },
         {
           model: Karigar,
@@ -83,32 +97,30 @@ exports.updateOrder = async (req, res) => {
   try {
     const {
       order_id,
-      weight,
+      lot_weight,
       karat,
-      products,
+      product,
       description,
       karigar_id,
       placed_by,
-      order_for,
       placed_date,
       delivery_date,
-      active,
+      status,
       images, // Expecting an array of image URLs
     } = req.body;
 
     // Update order
     const [updated] = await Order.update(
       {
-        weight,
+        lot_weight,
         karat,
-        products,
+        product,
         description,
         karigar_id,
         placed_by,
-        order_for,
         placed_date,
         delivery_date,
-        active,
+        status,
       },
       {
         where: { order_id },

@@ -36,14 +36,13 @@ exports.getAllKarigars = async (req, res) => {
           model: db.order, // Include the Order model
           attributes: [
             "order_id",
-            "weight",
+            "lot_weight",
             "karat",
             "description",
             "placed_by",
-            "order_for",
             "placed_date",
             "delivery_date",
-            "active",
+            "status",
           ], // Specify attributes to include
         },
       ],
