@@ -1,4 +1,4 @@
-const { PutObjectCommand } = require("@aws-sdk/client-s3");
+const { PutObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 const s3 = require("../config/s3.config");
 const { v4: uuidv4 } = require("uuid");
 const path = require("path");
@@ -22,9 +22,6 @@ const uploadImageToS3 = async (file, order_id) => {
   // Create the S3 key in the format order_id/IMG-today's date-filename
   const s3Key = `${order_id}/${uniqueFileName}`;
 
-  // Log to ensure bucket name is being read
-  // console.log("Bucket Name:", bucketName); // This should print the correct bucket name
-
   const params = {
     Bucket: bucketName,
     Key: s3Key,
@@ -41,4 +38,26 @@ const uploadImageToS3 = async (file, order_id) => {
   }
 };
 
-module.exports = { uploadImageToS3 };
+// Deletes a file from S3 given its URL
+const deleteImageFromS3 = async (imageUrl) => {
+  const bucketName = process.env.S3_BUCKET_NAME;
+  const s3Key = imageUrl.split(".com/")[1]; // Extract the S3 key from the URL
+
+  if (!s3Key) {
+    throw new Error("Invalid image URL");
+  }
+
+  const params = {
+    Bucket: bucketName,
+    Key: s3Key,
+  };
+
+  try {
+    await s3.send(new DeleteObjectCommand(params));
+    console.log(`Deleted image: ${s3Key}`);
+  } catch (error) {
+    throw new Error("S3 Delete Error: " + error.message);
+  }
+};
+
+module.exports = { uploadImageToS3, deleteImageFromS3 };

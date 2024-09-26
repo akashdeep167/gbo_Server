@@ -109,7 +109,7 @@ exports.updateOrder = async (req, res) => {
       images, // Expecting an array of image URLs
     } = req.body;
 
-    // Update order
+    // Update the order details
     const [updated] = await Order.update(
       {
         lot_weight,
@@ -133,17 +133,26 @@ exports.updateOrder = async (req, res) => {
       });
     }
 
-    // Update images
+    // If images are provided, update them
     if (images && images.length > 0) {
       await OrderImage.destroy({ where: { order_id } }); // Remove existing images
       const imageEntries = images.map((imageUrl) => ({
-        images: imageUrl,
+        imageUrl,
         order_id,
       }));
-      await OrderImage.bulkCreate(imageEntries);
+      await OrderImage.bulkCreate(imageEntries); // Bulk create new images
     }
 
-    res.status(200).send({ message: "Order updated successfully." });
+    // Fetch the updated order, including the images
+    const updatedOrder = await Order.findOne({
+      where: { order_id },
+      include: [{ model: OrderImage, as: "order_images" }], // Include the related images
+    });
+
+    res.status(200).send({
+      message: "Order updated successfully.",
+      order: updatedOrder, // Send the updated order along with the response
+    });
   } catch (error) {
     res.status(500).send({
       message: error.message || "Some error occurred while updating the order.",
