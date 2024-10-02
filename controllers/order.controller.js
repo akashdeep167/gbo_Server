@@ -143,15 +143,26 @@ exports.updateOrder = async (req, res) => {
       await OrderImage.bulkCreate(imageEntries); // Bulk create new images
     }
 
-    // Fetch the updated order, including the images
+    // Fetch the updated order, including the images and karigar details
     const updatedOrder = await Order.findOne({
       where: { order_id },
-      include: [{ model: OrderImage, as: "order_images" }], // Include the related images
+      include: [
+        {
+          model: OrderImage,
+          as: "order_images", // Ensure this alias matches your model definition
+          attributes: ["id", "imageUrl"], // Adjust attributes as needed
+        },
+        {
+          model: Karigar,
+          as: "karigar", // Ensure this alias matches your model definition
+          attributes: ["id", "name", "description"], // Adjust attributes as needed
+        },
+      ],
     });
 
     res.status(200).send({
       message: "Order updated successfully.",
-      order: updatedOrder, // Send the updated order along with the response
+      order: updatedOrder, // Send the updated order along with the karigar and images
     });
   } catch (error) {
     res.status(500).send({
