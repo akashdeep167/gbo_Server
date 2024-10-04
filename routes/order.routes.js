@@ -25,10 +25,6 @@ router.delete(
   [authJwt.verifyToken, authJwt.isAdmin],
   orderController.deleteOrder
 );
-router.put(
-  "/:order_id",
-  [authJwt.verifyToken, authJwt.isAdmin],
-  orderController.updateOrder
-);
+router.put("/:order_id", [authJwt.verifyToken], orderController.updateOrder);
 
 module.exports = router;
