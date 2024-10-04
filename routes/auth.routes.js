@@ -6,7 +6,12 @@ const router = express.Router();
 
 router.post(
   "/signup",
-  [verifySignUp.checkDuplicateUsername, verifySignUp.checkRolesExisted],
+  [
+    verifySignUp.checkDuplicateUsername,
+    verifySignUp.checkRolesExisted,
+    authJwt.verifyToken,
+    authJwt.isAdmin,
+  ],
   authController.signup
 );
 
