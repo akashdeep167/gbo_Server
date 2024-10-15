@@ -35,17 +35,13 @@ db.sequelize
     console.error("Error updating tables:", err);
   });
 
-// const httpsOptions = {
-//   key: fs.readFileSync("/home/ubuntu/ssl/private/cert.key"),
-//   cert: fs.readFileSync("/home/ubuntu/ssl/cert.pem"),
-// };
+const httpsOptions = {
+  key: fs.readFileSync("/home/ubuntu/ssl/private/cert.key"),
+  cert: fs.readFileSync("/home/ubuntu/ssl/cert.pem"),
+};
 
 const PORT = 3001;
 
-// https.createServer(httpsOptions, app).listen(PORT, () => {
-//   console.log(`HTTPS server is running on port ${PORT}`);
-// });
-
-app.listen(PORT, () => {
-  console.log("server started: ", PORT);
-})
+https.createServer(httpsOptions, app).listen(PORT, () => {
+  console.log(`HTTPS server is running on port ${PORT}`);
+});
