@@ -15,6 +15,7 @@ exports.signup = async (req, res) => {
         .status(400)
         .json({ message: "Username and password are required." });
     }
+    req.body.username = req.body.username.trim();
 
     // Create User
     const user = await User.create({
@@ -51,10 +52,10 @@ exports.signin = async (req, res) => {
         .status(400)
         .json({ message: "Username and password are required." });
     }
-
+    const trimmedUsername = req.body.username.trim();
     // Find User
     const user = await User.findOne({
-      where: { username: req.body.username },
+      where: { username: trimmedUsername },
     });
 
     if (!user) {

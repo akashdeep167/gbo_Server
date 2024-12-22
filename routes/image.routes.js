@@ -12,7 +12,7 @@ const router = express.Router();
 router.post(
   "/upload",
   [authJwt.verifyToken],
-  upload.array("images", 10),
+  upload.array("images"),
   uploadImages
 );
 router.post("/delete", [authJwt.verifyToken, authJwt.isAdmin], deleteImages);

@@ -7,7 +7,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING(20),
       primaryKey: true,
     },
-    lot_weight: {
+    weight: {
       type: DataTypes.STRING(20),
       allowNull: false,
     },
@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING(20),
       allowNull: false,
     },
-    product: {
+    client: {
       type: DataTypes.STRING(200),
       allowNull: true,
     },

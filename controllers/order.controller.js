@@ -7,9 +7,9 @@ exports.createOrder = async (req, res) => {
   try {
     const {
       order_id,
-      lot_weight,
+      weight,
       karat,
-      product,
+      client,
       description,
       karigar_id,
       placed_by,
@@ -22,9 +22,9 @@ exports.createOrder = async (req, res) => {
     // Create and save the order in the database
     const newOrder = await Order.create({
       order_id,
-      lot_weight,
+      weight,
       karat,
-      product,
+      client,
       description,
       karigar_id,
       placed_by,
@@ -97,9 +97,9 @@ exports.updateOrder = async (req, res) => {
   try {
     const {
       order_id,
-      lot_weight,
+      weight,
       karat,
-      product,
+      client,
       description,
       karigar_id,
       placed_by,
@@ -112,9 +112,9 @@ exports.updateOrder = async (req, res) => {
     // Update the order details
     const [updated] = await Order.update(
       {
-        lot_weight,
+        weight,
         karat,
-        product,
+        client,
         description,
         karigar_id,
         placed_by,
